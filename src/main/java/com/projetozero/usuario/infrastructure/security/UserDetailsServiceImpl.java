@@ -1,8 +1,8 @@
 package com.projetozero.usuario.infrastructure.security;
 
 
-import com.projetojava.projeto1.infrastructure.entity.Usuario;
-import com.projetojava.projeto1.infrastructure.repository.UsuarioRepository;
+import com.projetozero.usuario.infrastructure.entity.Usuario;
+import com.projetozero.usuario.infrastructure.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
