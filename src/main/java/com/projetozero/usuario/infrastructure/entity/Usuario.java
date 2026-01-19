@@ -1,4 +1,4 @@
-package com.projetojava.projeto1.infrastructure.entity;
+package com.projetozero.usuario.infrastructure.entity;
 
 
 import jakarta.persistence.*;
@@ -6,6 +6,8 @@ import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.projetozero.usuario.infrastructure.entity.Endereco;
+import com.projetozero.usuario.infrastructure.entity.Telefone;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name="usuario")
+@Builder
 public class Usuario implements UserDetails {
 
     @Id

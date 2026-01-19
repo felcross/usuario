@@ -1,10 +1,12 @@
-package com.projetojava.projeto1.business;
+package com.projetozero.usuario.business;
 
 
-import com.projetojava.projeto1.infrastructure.entity.Usuario;
-import com.projetojava.projeto1.infrastructure.exception.ConflictException;
-import com.projetojava.projeto1.infrastructure.exception.ResourceNotFoundException;
-import com.projetojava.projeto1.infrastructure.repository.UsuarioRepository;
+import com.projetozero.usuario.business.converter.UsuarioConverter;
+import com.projetozero.usuario.business.dtos.UsuarioDTO;
+import com.projetozero.usuario.infrastructure.entity.Usuario;
+import com.projetozero.usuario.infrastructure.exception.ConflictException;
+import com.projetozero.usuario.infrastructure.exception.ResourceNotFoundException;
+import com.projetozero.usuario.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,18 +18,25 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UsuarioConverter usuarioConverter;
 
-    public Usuario salvarUsuario(Usuario usuario) {
-        try {
-            emailExiste(usuario.getEmail());
-            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-            return usuarioRepository.save(usuario);
-
-        } catch (ConflictException e) {
-            throw new ConflictException("Email já existe", e.getCause());
-        }
-
+    public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO){
+        Usuario usuario = usuarioConverter.paraUsuario(usuarioDTO);
+        return usuarioConverter.paraUsuarioDTO(usuarioRepository.save(usuario));
     }
+
+
+//    public Usuario salvarUsuario(Usuario usuario) {
+//        try {
+//            emailExiste(usuario.getEmail());
+//            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+//            return usuarioRepository.save(usuario);
+//
+//        } catch (ConflictException e) {
+//            throw new ConflictException("Email já existe", e.getCause());
+//        }
+//
+//    }
 
     public void emailExiste(String email) {
         try {

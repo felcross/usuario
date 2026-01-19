@@ -1,11 +1,8 @@
-package com.projetojava.projeto1.infrastructure.entity;
+package com.projetozero.usuario.infrastructure.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name="endereco")
+@Builder
 public class Endereco {
 
     @Id
