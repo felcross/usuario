@@ -1,9 +1,9 @@
-package com.projetojava.projeto1.controller;
+package com.projetozero.usuario.controller;
 
-import com.projetojava.projeto1.business.UsuarioService;
-import com.projetojava.projeto1.controller.dtos.UsuarioDTO;
-import com.projetojava.projeto1.infrastructure.entity.Usuario;
-import com.projetojava.projeto1.security.JwtUtil;
+import com.projetozero.usuario.business.UsuarioService;
+import com.projetozero.usuario.controller.dtos.UsuarioDTO;
+import com.projetozero.usuario.infrastructure.entity.Usuario;
+import com.projetozero.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

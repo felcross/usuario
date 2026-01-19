@@ -1,4 +1,4 @@
-package com.projetojava.projeto1.infrastructure.exception;
+package com.projetozero.usuario.infrastructure.exception;
 
 public class ConflictException extends  RuntimeException {
 

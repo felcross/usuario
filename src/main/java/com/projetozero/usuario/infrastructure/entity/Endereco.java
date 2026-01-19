@@ -1,4 +1,4 @@
-package com.projetojava.projeto1.infrastructure.entity;
+package com.projetozero.usuario.infrastructure.entity;
 
 
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.projetojava.projeto1.controller.dtos;
+package com.projetozero.usuario.controller.dtos;
 
 
 import lombok.AllArgsConstructor;

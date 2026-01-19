@@ -1,10 +1,10 @@
-package com.projetojava.projeto1.business;
+package com.projetozero.usuario.business;
 
 
-import com.projetojava.projeto1.infrastructure.entity.Usuario;
-import com.projetojava.projeto1.infrastructure.exception.ConflictException;
-import com.projetojava.projeto1.infrastructure.exception.ResourceNotFoundException;
-import com.projetojava.projeto1.infrastructure.repository.UsuarioRepository;
+import com.projetozero.usuario.infrastructure.entity.Usuario;
+import com.projetozero.usuario.infrastructure.exception.ConflictException;
+import com.projetozero.usuario.infrastructure.exception.ResourceNotFoundException;
+import com.projetozero.usuario.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
