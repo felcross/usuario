@@ -1,17 +1,24 @@
 package com.projetozero.usuario.controller.dtos;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.projetozero.usuario.infrastructure.entity.Endereco;
+import com.projetozero.usuario.infrastructure.entity.Telefone;
+import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UsuarioDTO {
 
+    private String nome;
     private String email;
     private String senha;
+
+    private List<EnderecoDTO> enderecos;
+    private List<TelefoneDTO> telefones;
+
 }
