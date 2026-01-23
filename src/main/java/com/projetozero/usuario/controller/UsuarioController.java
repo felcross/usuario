@@ -1,6 +1,8 @@
 package com.projetozero.usuario.controller;
 
 import com.projetozero.usuario.business.UsuarioService;
+import com.projetozero.usuario.controller.dtos.EnderecoDTO;
+import com.projetozero.usuario.controller.dtos.TelefoneDTO;
 import com.projetozero.usuario.controller.dtos.UsuarioDTO;
 import com.projetozero.usuario.infrastructure.entity.Usuario;
 import com.projetozero.usuario.infrastructure.security.JwtUtil;
@@ -35,7 +37,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam("email") String email) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam("email") String email) {
       return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
     }
 
@@ -53,4 +55,20 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.atualizarUsuario(token, usuarioDTO));
 
     }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> updateEndereco(
+            @RequestBody EnderecoDTO enderecoDTO,@RequestParam Long id)  {
+        return ResponseEntity.ok(usuarioService.atualizarEndereco(id,enderecoDTO));
+
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> updateTelefone(
+            @RequestBody TelefoneDTO telefoneDTO,@RequestParam Long id)  {
+        return ResponseEntity.ok(usuarioService.atualizarTelefone(id,telefoneDTO));
+
+    }
+
+
  }
