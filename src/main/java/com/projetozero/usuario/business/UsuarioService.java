@@ -1,10 +1,13 @@
 package com.projetozero.usuario.business;
 
 
+import com.projetozero.usuario.controller.dtos.UsuarioConverter;
+import com.projetozero.usuario.controller.dtos.UsuarioDTO;
 import com.projetozero.usuario.infrastructure.entity.Usuario;
 import com.projetozero.usuario.infrastructure.exception.ConflictException;
 import com.projetozero.usuario.infrastructure.exception.ResourceNotFoundException;
 import com.projetozero.usuario.infrastructure.repository.UsuarioRepository;
+import com.projetozero.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +18,9 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioConverter usuarioConverter;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public Usuario salvarUsuario(Usuario usuario) {
         try {
@@ -54,4 +59,21 @@ public class UsuarioService {
     public void  deleterUsuarioPoremail(String email) {
          usuarioRepository.deleteByEmail(email);
     }
+
+    public UsuarioDTO atualizarUsuario(String token, UsuarioDTO usuarioDTO){
+       //Busca através do token(não precisa passar o email)
+        String email = jwtUtil.extractUsername(token.substring(7));
+
+        usuarioDTO.setSenha(usuarioDTO.getSenha() != null ? passwordEncoder.encode(usuarioDTO.getSenha()) : null);
+
+        //busca de dados
+        Usuario usuarioEntity = usuarioRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Email não encontrado" + email));
+
+       //mescla informações do DTO e do BD para atualizar
+        Usuario  usuario = usuarioConverter.updateUsuario(usuarioDTO,usuarioEntity);
+
+        //salva os dados e converte para DTO
+        return usuarioConverter.paraUsuarioDTO( usuarioRepository.save(usuario));
+    }
+
 }
