@@ -31,11 +31,12 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public Usuario salvarUsuario(Usuario usuario) {
+    public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO) {
         try {
-            emailExiste(usuario.getEmail());
-            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-            return usuarioRepository.save(usuario);
+            emailExiste(usuarioDTO.getEmail());
+            usuarioDTO.setSenha(passwordEncoder.encode(usuarioDTO.getSenha()));
+            Usuario usuario = usuarioConverter.paraUsuario(usuarioDTO);
+            return usuarioConverter.paraUsuarioDTO(usuarioRepository.save(usuario));
 
         } catch (ConflictException e) {
             throw new ConflictException("Email já existe", e.getCause());
