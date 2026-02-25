@@ -23,8 +23,8 @@ public class UsuarioController {
     private final JwtUtil jwtUtil;
 
     @PostMapping
-    public ResponseEntity<Usuario>  salvarUsuario(@RequestBody Usuario usuario){
-       return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
+    public ResponseEntity<UsuarioDTO>  salvarUsuario(@RequestBody UsuarioDTO usuarioDTO){
+       return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDTO));
     }
 
     @PostMapping("/login")
