@@ -1,16 +1,15 @@
 package com.projetozero.usuario.controller;
 
 import com.projetozero.usuario.business.UsuarioService;
+import com.projetozero.usuario.business.ViaCepService;
 import com.projetozero.usuario.controller.dtos.EnderecoDTO;
 import com.projetozero.usuario.controller.dtos.TelefoneDTO;
 import com.projetozero.usuario.controller.dtos.UsuarioDTO;
-import com.projetozero.usuario.infrastructure.entity.Usuario;
-import com.projetozero.usuario.infrastructure.security.JwtUtil;
+import com.projetozero.usuario.infrastructure.clients.ViaCepDTO;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
-    private final AuthenticationManager  authenticationManager;
-    private final JwtUtil jwtUtil;
+    private final ViaCepService viaCepService;
 
     @PostMapping
     public ResponseEntity<UsuarioDTO>  salvarUsuario(@RequestBody UsuarioDTO usuarioDTO){
@@ -28,12 +26,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UsuarioDTO usuarioDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(),
-                        usuarioDTO.getSenha()));
-
-        return jwtUtil.generateToken(authentication.getName());
+    public ResponseEntity<String> login(@RequestBody UsuarioDTO usuarioDTO) {
+        return ResponseEntity.ok(usuarioService.autenticarUsuario(usuarioDTO));
     }
 
     @GetMapping
@@ -47,7 +41,7 @@ public class UsuarioController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<UsuarioDTO> updateusuario(
             @RequestBody UsuarioDTO usuarioDTO,
             @RequestHeader("Authorization")String token) {
@@ -56,14 +50,14 @@ public class UsuarioController {
 
     }
 
-    @PutMapping("/endereco")
+    @PatchMapping("/endereco")
     public ResponseEntity<EnderecoDTO> updateEndereco(
             @RequestBody EnderecoDTO enderecoDTO,@RequestParam Long id)  {
         return ResponseEntity.ok(usuarioService.atualizarEndereco(id,enderecoDTO));
 
     }
 
-    @PutMapping("/telefone")
+    @PatchMapping("/telefone")
     public ResponseEntity<TelefoneDTO> updateTelefone(
             @RequestBody TelefoneDTO telefoneDTO,@RequestParam Long id)  {
         return ResponseEntity.ok(usuarioService.atualizarTelefone(id,telefoneDTO));
@@ -82,6 +76,11 @@ public class UsuarioController {
             @RequestBody TelefoneDTO telefoneDTO,
             @RequestHeader("Authorization") String token){
         return ResponseEntity.ok(usuarioService.cadastraTelefone(token,telefoneDTO));
+    }
+
+    @GetMapping("/endereco/{cep}")
+    public ResponseEntity<ViaCepDTO> buscarDadosCep(@PathVariable("cep") String cep){
+        return ResponseEntity.ok(viaCepService.buscarDadosEndereco(cep));
     }
 
 

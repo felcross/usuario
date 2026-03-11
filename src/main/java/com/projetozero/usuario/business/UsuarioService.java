@@ -1,7 +1,7 @@
 package com.projetozero.usuario.business;
 
 
-import aj.org.objectweb.asm.commons.TryCatchBlockSorter;
+
 import com.projetozero.usuario.controller.dtos.EnderecoDTO;
 import com.projetozero.usuario.controller.dtos.TelefoneDTO;
 import com.projetozero.usuario.controller.dtos.UsuarioConverter;
@@ -11,11 +11,18 @@ import com.projetozero.usuario.infrastructure.entity.Telefone;
 import com.projetozero.usuario.infrastructure.entity.Usuario;
 import com.projetozero.usuario.infrastructure.exception.ConflictException;
 import com.projetozero.usuario.infrastructure.exception.ResourceNotFoundException;
+import com.projetozero.usuario.infrastructure.exception.UnauthorizedException;
 import com.projetozero.usuario.infrastructure.repository.EnderecoRepository;
 import com.projetozero.usuario.infrastructure.repository.TelefoneRepository;
 import com.projetozero.usuario.infrastructure.repository.UsuarioRepository;
 import com.projetozero.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +37,22 @@ public class UsuarioService {
     private final UsuarioConverter usuarioConverter;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
+
+
+    public String autenticarUsuario(UsuarioDTO usuarioDTO) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            usuarioDTO.getEmail(),
+                            usuarioDTO.getSenha()));
+
+            return jwtUtil.generateToken(authentication.getName());
+
+        } catch (BadCredentialsException | UsernameNotFoundException | AuthenticationCredentialsNotFoundException e) {
+            throw new UnauthorizedException("Email ou senha inválidos"+ e.getCause());
+        }
+    }
 
     public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO) {
         try {

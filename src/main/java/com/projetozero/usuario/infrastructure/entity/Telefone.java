@@ -4,6 +4,7 @@ package com.projetozero.usuario.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -13,8 +14,8 @@ import java.util.List;
 @Entity
 @Table(name="telefone")
 @Builder
-public class Telefone {
-
+public class Telefone  implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
