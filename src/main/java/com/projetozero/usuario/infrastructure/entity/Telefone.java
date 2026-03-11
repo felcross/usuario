@@ -2,11 +2,9 @@ package com.projetozero.usuario.infrastructure.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -15,8 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name="telefone")
-public class Telefone {
-
+@Builder
+public class Telefone  implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +23,8 @@ public class Telefone {
     private  String numero;
     @Column(name="ddd", length = 3)
     private  String ddd;
+    @Column(name="usuario_id")
+    private  Long usuario_id;
 
 
 }
